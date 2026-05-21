@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as ThreatMapRouteImport } from './routes/threat-map'
+import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -19,6 +20,11 @@ import { Route as IndexRouteImport } from './routes/index'
 const ThreatMapRoute = ThreatMapRouteImport.update({
   id: '/threat-map',
   path: '/threat-map',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ReportsRoute = ReportsRouteImport.update({
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
+  '/signup': typeof SignupRoute
   '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
+  '/signup': typeof SignupRoute
   '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/login': typeof LoginRoute
   '/reports': typeof ReportsRoute
+  '/signup': typeof SignupRoute
   '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRouteTypes {
@@ -80,9 +89,17 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/reports'
+    | '/signup'
     | '/threat-map'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyzer' | '/dashboard' | '/login' | '/reports' | '/threat-map'
+  to:
+    | '/'
+    | '/analyzer'
+    | '/dashboard'
+    | '/login'
+    | '/reports'
+    | '/signup'
+    | '/threat-map'
   id:
     | '__root__'
     | '/'
@@ -90,6 +107,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/login'
     | '/reports'
+    | '/signup'
     | '/threat-map'
   fileRoutesById: FileRoutesById
 }
@@ -99,6 +117,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   LoginRoute: typeof LoginRoute
   ReportsRoute: typeof ReportsRoute
+  SignupRoute: typeof SignupRoute
   ThreatMapRoute: typeof ThreatMapRoute
 }
 
@@ -109,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/threat-map'
       fullPath: '/threat-map'
       preLoaderRoute: typeof ThreatMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reports': {
@@ -155,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   LoginRoute: LoginRoute,
   ReportsRoute: ReportsRoute,
+  SignupRoute: SignupRoute,
   ThreatMapRoute: ThreatMapRoute,
 }
 export const routeTree = rootRouteImport
