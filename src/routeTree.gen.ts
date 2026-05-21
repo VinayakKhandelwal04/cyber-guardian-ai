@@ -9,10 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AnalyzerRouteImport } from './routes/analyzer'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ReportsRoute = ReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardRoute = DashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -33,34 +39,45 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
+  '/reports': typeof ReportsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
+  '/reports': typeof ReportsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
+  '/reports': typeof ReportsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyzer' | '/dashboard'
+  fullPaths: '/' | '/analyzer' | '/dashboard' | '/reports'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyzer' | '/dashboard'
-  id: '__root__' | '/' | '/analyzer' | '/dashboard'
+  to: '/' | '/analyzer' | '/dashboard' | '/reports'
+  id: '__root__' | '/' | '/analyzer' | '/dashboard' | '/reports'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnalyzerRoute: typeof AnalyzerRoute
   DashboardRoute: typeof DashboardRoute
+  ReportsRoute: typeof ReportsRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reports': {
+      id: '/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof ReportsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard': {
       id: '/dashboard'
       path: '/dashboard'
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnalyzerRoute: AnalyzerRoute,
   DashboardRoute: DashboardRoute,
+  ReportsRoute: ReportsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
