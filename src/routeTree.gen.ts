@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ThreatMapRouteImport } from './routes/threat-map'
 import { Route as ReportsRouteImport } from './routes/reports'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as AnalyzerRouteImport } from './routes/analyzer'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ThreatMapRoute = ThreatMapRouteImport.update({
+  id: '/threat-map',
+  path: '/threat-map',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReportsRoute = ReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
   '/reports': typeof ReportsRoute
+  '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
   '/reports': typeof ReportsRoute
+  '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/analyzer': typeof AnalyzerRoute
   '/dashboard': typeof DashboardRoute
   '/reports': typeof ReportsRoute
+  '/threat-map': typeof ThreatMapRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/analyzer' | '/dashboard' | '/reports'
+  fullPaths: '/' | '/analyzer' | '/dashboard' | '/reports' | '/threat-map'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/analyzer' | '/dashboard' | '/reports'
-  id: '__root__' | '/' | '/analyzer' | '/dashboard' | '/reports'
+  to: '/' | '/analyzer' | '/dashboard' | '/reports' | '/threat-map'
+  id: '__root__' | '/' | '/analyzer' | '/dashboard' | '/reports' | '/threat-map'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +76,18 @@ export interface RootRouteChildren {
   AnalyzerRoute: typeof AnalyzerRoute
   DashboardRoute: typeof DashboardRoute
   ReportsRoute: typeof ReportsRoute
+  ThreatMapRoute: typeof ThreatMapRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/threat-map': {
+      id: '/threat-map'
+      path: '/threat-map'
+      fullPath: '/threat-map'
+      preLoaderRoute: typeof ThreatMapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reports': {
       id: '/reports'
       path: '/reports'
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AnalyzerRoute: AnalyzerRoute,
   DashboardRoute: DashboardRoute,
   ReportsRoute: ReportsRoute,
+  ThreatMapRoute: ThreatMapRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
